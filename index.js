@@ -1,61 +1,56 @@
-app.get("/webhook", (req, res) => {
-  const VERIFY_TOKEN = "flyora123";
-
-  const mode = req.query["hub.mode"];
-  const token = req.query["hub.verify_token"];
-  const challenge = req.query["hub.challenge"];
-
-  if (mode && token === VERIFY_TOKEN) {
-    console.log("Webhook verified!");
-    return res.status(200).send(challenge);
-  } else {
-    return res.sendStatus(403);
-  }
-});
 const express = require("express");
-const bodyParser = require("body-parser");
 const axios = require("axios");
 
 const app = express();
-app.use(bodyParser.json());
+app.use(express.json());
 
-const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
+// 🔑 Change these
+const VERIFY_TOKEN = "flyora123";
+const PAGE_ACCESS_TOKEN = "PUT_YOUR_META_ACCESS_TOKEN_HERE";
 
-// Verify webhook
+// ✅ Webhook Verification (GET)
 app.get("/webhook", (req, res) => {
-  const VERIFY_TOKEN = "mytoken";
-
   const mode = req.query["hub.mode"];
   const token = req.query["hub.verify_token"];
   const challenge = req.query["hub.challenge"];
 
-  if (mode && token === VERIFY_TOKEN) {
+  if (mode === "subscribe" && token === VERIFY_TOKEN) {
+    console.log("Webhook verified successfully!");
     return res.status(200).send(challenge);
   } else {
     return res.sendStatus(403);
   }
 });
 
-// Receive messages
+// ✅ Receive Messages (POST)
 app.post("/webhook", async (req, res) => {
-  const entry = req.body.entry;
+  try {
+    const entry = req.body.entry;
 
-  if (entry) {
-    const messaging = entry[0].messaging;
-    const sender = messaging[0].sender.id;
+    if (entry && entry[0].messaging) {
+      const messaging = entry[0].messaging[0];
+      const senderId = messaging.sender.id;
 
-    await axios.post(
-      `https://graph.facebook.com/v18.0/me/messages?access_token=${PAGE_ACCESS_TOKEN}`,
-      {
-        recipient: { id: sender },
-        message: {
-          text: "👋 Hi! I'm Flyora AI ✈️\nTell me where you want to travel and I’ll find the best price!"
+      await axios.post(
+        `https://graph.facebook.com/v18.0/me/messages?access_token=${PAGE_ACCESS_TOKEN}`,
+        {
+          recipient: { id: senderId },
+          message: {
+            text: "🔥 Hi! I'm Flyora AI ✈️ Tell me where you want to travel!",
+          },
         }
-      }
-    );
-  }
+      );
+    }
 
-  res.sendStatus(200);
+    res.sendStatus(200);
+  } catch (error) {
+    console.error("Error:", error.response?.data || error.message);
+    res.sendStatus(500);
+  }
 });
 
-app.listen(3000, () => console.log("Server running"));
+// ✅ Start Server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
