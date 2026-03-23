@@ -1,3 +1,17 @@
+app.get("/webhook", (req, res) => {
+  const VERIFY_TOKEN = "flyora123";
+
+  const mode = req.query["hub.mode"];
+  const token = req.query["hub.verify_token"];
+  const challenge = req.query["hub.challenge"];
+
+  if (mode && token === VERIFY_TOKEN) {
+    console.log("Webhook verified!");
+    return res.status(200).send(challenge);
+  } else {
+    return res.sendStatus(403);
+  }
+});
 const express = require("express");
 const bodyParser = require("body-parser");
 const axios = require("axios");
