@@ -6,7 +6,7 @@ app.use(express.json());
 
 // 🔑 Change these
 const VERIFY_TOKEN = "flyora123";
-const PAGE_ACCESS_TOKEN = "PUT_YOUR_META_ACCESS_TOKEN_HERE";
+const PAGE_ACCESS_TOKEN = "IGAARLSLuhPWBBZAGJoZAjhqZAGxuVFZAaWk9EOWtjRjVWSEtLbUYxM0RiLVpTR3pfb3lGcnBzMmFVYXhhVEl3UzFyUUk1bG9FdlpSbGN5Ri1iZA3c0bFhhNVZAUQThrYjMwa0JWZAG9lWXJzWDFyZAVhzQnBTS1BqY3VhWkJicXpJY0ZAuRQZDZD";
 
 // ✅ Webhook Verification (GET)
 app.get("/webhook", (req, res) => {
