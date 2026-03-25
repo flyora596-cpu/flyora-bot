@@ -4,25 +4,25 @@ const axios = require("axios");
 const app = express();
 app.use(express.json());
 
-// 🔑 Change these
+// 🔐 CONFIG
 const VERIFY_TOKEN = "flyora123";
 const PAGE_ACCESS_TOKEN = "IGAARLSLuhPWBBZAGJoZAjhqZAGxuVFZAaWk9EOWtjRjVWSEtLbUYxM0RiLVpTR3pfb3lGcnBzMmFVYXhhVEl3UzFyUUk1bG9FdlpSbGN5Ri1iZA3c0bFhhNVZAUQThrYjMwa0JWZAG9lWXJzWDFyZAVhzQnBTS1BqY3VhWkJicXpJY0ZAuRQZDZD";
 
-// ✅ Webhook Verification (GET)
+// ✅ Webhook Verification
 app.get("/webhook", (req, res) => {
   const mode = req.query["hub.mode"];
   const token = req.query["hub.verify_token"];
   const challenge = req.query["hub.challenge"];
 
   if (mode === "subscribe" && token === VERIFY_TOKEN) {
-    console.log("Webhook verified successfully!");
+    console.log("Webhook verified successfully");
     return res.status(200).send(challenge);
   } else {
     return res.sendStatus(403);
   }
 });
 
-// ✅ Receive Messages (POST)
+// 📩 Receive Messages
 app.post("/webhook", async (req, res) => {
   try {
     const entry = req.body.entry;
@@ -36,8 +36,8 @@ app.post("/webhook", async (req, res) => {
         {
           recipient: { id: senderId },
           message: {
-            text: "🔥 Hi! I'm Flyora AI ✈️ Tell me where you want to travel!",
-          },
+            text: "🔥 Hi! I'm Flyora AI ✈️ Tell me where you want to travel!"
+          }
         }
       );
     }
@@ -49,8 +49,8 @@ app.post("/webhook", async (req, res) => {
   }
 });
 
-// ✅ Start Server
+// 🚀 Start Server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log("Server is running...");
 });
