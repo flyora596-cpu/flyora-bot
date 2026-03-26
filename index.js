@@ -5,7 +5,7 @@ const app = express();
 app.use(express.json());
 
 // 🔐 CONFIG
-const VERIFY_TOKEN = "flyora123";
+const VERIFY_TOKEN = "123456";
 const PAGE_ACCESS_TOKEN = "IGAARLSLuhPWBBZAGJoZAjhqZAGxuVFZAaWk9EOWtjRjVWSEtLbUYxM0RiLVpTR3pfb3lGcnBzMmFVYXhhVEl3UzFyUUk1bG9FdlpSbGN5Ri1iZA3c0bFhhNVZAUQThrYjMwa0JWZAG9lWXJzWDFyZAVhzQnBTS1BqY3VhWkJicXpJY0ZAuRQZDZD";
 
 // ✅ Webhook Verification
